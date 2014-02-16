@@ -2,8 +2,8 @@
   (:require [instaparse.core :as insta]
             [clojure.walk :as walk]))
 
-(def parser
-  (insta/parser (clojure.java.io/resource "irc.abnf") :input-format :abnf))
+(defn parser [string]
+  ((insta/parser (clojure.java.io/resource "irc.abnf") :input-format :abnf) string))
 
 (defn rule? [rule subtree]
   (= rule (first subtree)))
@@ -13,17 +13,19 @@
     (rest matching-rule)))
 
 (defn get-server-hostname [subtree]
-  (apply str (-> (list subtree)
-                 (match-rule :message)
-                 (match-rule :prefix)
-                 (match-rule :servername)
-                 (match-rule :hostname))))
+  (-> (list subtree)
+      (match-rule :message)
+      (match-rule :prefix)
+      (match-rule :servername)
+      (match-rule :hostname)
+      first))
 
 (defn get-trailing-params [subtree]
-  (apply str (-> (list subtree)
-                 (match-rule :message)
-                 (match-rule :params)
-                 (match-rule :trailing))))
+  (-> (list subtree)
+      (match-rule :message)
+      (match-rule :params)
+      (match-rule :trailing)
+      first))
 
 (defn ircparse
   [message]
