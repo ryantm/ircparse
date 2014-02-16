@@ -1,7 +1,9 @@
 (ns ircparse.core
   (:require [instaparse.core :as insta]))
 
-(defn parser [string]
+(def parser (insta/parser (clojure.java.io/resource "irc.abnf") :input-format :abnf))
+
+(defn debug-parse [string]
   ((insta/parser (clojure.java.io/resource "irc.abnf") :input-format :abnf) string))
 
 (defn rule? [rule subtree]
@@ -32,9 +34,17 @@
       (match-rule :trailing)
       first))
 
-(defn ircparse
+(defn message
+  "Takes a full IRC message, including the CR LF characters and returns
+a hash with extracted information with these keys:
+
+* command
+* prefix
+* trailing-params
+* parse-tree"
   [message]
-  (let [parsed (parser message)]
-    {:command (get-command parsed)
-     :prefix (get-server-hostname parsed)
-     :trailing-params (get-trailing-params parsed)}))
+  (let [parse-tree (parser message)]
+    {:command (get-command parse-tree)
+     :prefix (get-server-hostname parse-tree)
+     :trailing-params (get-trailing-params parse-tree)
+     :parse-tree parse-tree}))
