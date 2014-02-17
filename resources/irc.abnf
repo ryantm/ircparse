@@ -1,5 +1,5 @@
 message    =  [ <":"> prefix <SP> ] command [ params ] <CRLF>
-prefix     =  servername / ( nickname [ [ "!" user ] "@" host ] )
+prefix     =  servername / ( nickname [ [ <"!"> user ] <"@"> host ] )
 command    =  #"[A-Za-z]+" / #"\d\d\d"
 params     =  *14( <SP> middle ) [ <SP> <":"> trailing ]
 params     =/ 14( <SP> middle ) [ <SP> [ <":"> ] trailing ]
@@ -9,15 +9,15 @@ trailing   =  #"[^\r\n\00]*"
 
 servername =  hostname
 host       =  hostname / hostaddr
-hostname   =  #"[A-Za-z0-9]([-A-Za-z0-9]+[A-Za-z0-9])*([.][A-Za-z0-9]([-A-Za-z0-9]+[A-Za-z0-9])*)*"
+hostname   =  #"[A-Za-z0-9]([-A-Za-z0-9]*[A-Za-z0-9])*([.][A-Za-z0-9]([-A-Za-z0-9]*[A-Za-z0-9])*)*"
 hostaddr   =  ip4addr / ip6addr
 ip4addr    =  1*3digit "." 1*3digit "." 1*3digit "." 1*3digit
 ip6addr    =  1*hexdigit 7( ":" 1*hexdigit )
 ip6addr    =/ "0:0:0:0:0:" ( "0" / "FFFF" ) ":" ip4addr
-nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
+nickname   =  #"[A-Za-z\[\]\\`_\^\{\|\}][A-Za-z0-9\-\[\]\\`_\^\{\|\}]{0,8}" ;( letter / special ) *8( letter / digit / special / "-" )
 
-user       =  1*( %x01-09 / %x0B-0C / %x0E-1F / %x21-3F / %x41-FF )
-                  ; any octet except NUL, CR, LF, " " and "@"
+user       =  #"[^\x00\r\n @]+" ;1*( %x01-09 / %x0B-0C / %x0E-1F / %x21-3F / %x41-FF )
+                                ; any octet except NUL, CR, LF, " " and "@"
 <letter>   =  %x41-5A / %x61-7A       ; A-Z / a-z
 digit      =  %x30-39                 ; 0-9
 hexdigit   =  digit / "A" / "B" / "C" / "D" / "E" / "F"
