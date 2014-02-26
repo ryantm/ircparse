@@ -28,6 +28,8 @@
              "NOTICE"))
       (is (= (:server-hostname parsed)
              "hubbard.freenode.net"))
+      (is (= (:middle-params parsed)
+             ["*"]))
       (is (= (:trailing-params parsed)
              "*** Looking up your hostname...")))
     (let [parsed (message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n")]
@@ -35,6 +37,8 @@
              "433"))
       (is (= (:server-hostname parsed)
              "cameron.freenode.net"))
+      (is (= (:middle-params parsed)
+             ["*" "rtm"]))
       (is (= (:trailing-params parsed)
              "Nickname is already in use"))
       (is (= (:parse-tree parsed)

@@ -13,6 +13,10 @@
   (let [matching-rule (first (filter (partial rule? rule) subtree))]
     (rest matching-rule)))
 
+(defn match-rules [subtree rule]
+  (let [matching-rule (filter (partial rule? rule) subtree)]
+    (map rest matching-rule)))
+
 (defn get-client-user [tree]
   (-> (list tree)
       (match-rule :message)
@@ -49,6 +53,13 @@
       (match-rule :command)
       first))
 
+(defn get-middle-params [tree]
+  (-> (list tree)
+      (match-rule :message)
+      (match-rule :params)
+      (match-rules :middle)
+      (flatten)))
+
 (defn get-trailing-params [tree]
   (-> (list tree)
       (match-rule :message)
@@ -84,4 +95,5 @@ If it fails to parse the message, it returns a map with a single key,
         [:client-user (get-client-user instaparse-return)]
         [:client-nickname (get-client-nickname instaparse-return)]
         [:client-host (get-client-host instaparse-return)]
+        [:middle-params (get-middle-params instaparse-return)]
         [:parse-tree instaparse-return]]))))
