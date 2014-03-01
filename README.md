@@ -24,6 +24,19 @@ Here is an example of trying it in `lein repl` inside a project depending on irc
 $lein repl
 user=> (require 'ircparse.core)
 nil
-user=> (ircparse.core/message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n")
-{:command "433", :prefix "cameron.freenode.net", :trailing-params "Nickname is already in use", :parse-tree [:message [:prefix [:servername [:hostname "cameron.freenode.net"]]] [:command "433"] [:params [:middle "*"] [:middle "rtm"] [:trailing "Nickname is already in use"]]]}
+user=> (require 'clojure.pprint)
+nil
+user=> (pprint (ircparse.core/message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n"))
+{:command "433",
+ :server-hostname "cameron.freenode.net",
+ :trailing-params "Nickname is already in use",
+ :middle-params ("*" "rtm"),
+ :parse-tree
+ [:message
+  [:prefix [:servername [:hostname "cameron.freenode.net"]]]
+  [:command "433"]
+  [:params
+   [:middle "*"]
+   [:middle "rtm"]
+   [:trailing "Nickname is already in use"]]]}
 ````
