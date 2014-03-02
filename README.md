@@ -26,7 +26,9 @@ user=> (require 'ircparse.core)
 nil
 user=> (require 'clojure.pprint)
 nil
-user=> (pprint (ircparse.core/message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n"))
+user=>
+(pprint
+    (ircparse.core/message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n"))
 {:command "433",
  :server-hostname "cameron.freenode.net",
  :trailing-params "Nickname is already in use",
