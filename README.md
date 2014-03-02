@@ -5,7 +5,7 @@ An IRC message parser written in Clojure.
 Add the following line to your [Leiningen](https://github.com/technomancy/leiningen) project dependencies:
 
 ````clojure
-[ircparse "0.3.0-SNAPSHOT"]
+[ircparse "0.3.0"]
 ````
 
 Require ircparse in your namespace header:
@@ -21,14 +21,15 @@ Pass the full message including the CR LF characters to `ircparse.core/message`.
 
 Here is an example of trying it in `lein repl` inside a project depending on ircparse:
 ````clojure
-$lein repl
+$ lein repl
 user=> (require 'ircparse.core)
 nil
 user=> (require 'clojure.pprint)
 nil
 user=>
 (pprint
-    (ircparse.core/message ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n"))
+ (ircparse.core/message
+  ":cameron.freenode.net 433 * rtm :Nickname is already in use\r\n"))
 {:command "433",
  :server-hostname "cameron.freenode.net",
  :trailing-params "Nickname is already in use",

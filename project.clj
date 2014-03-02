@@ -1,4 +1,4 @@
-(defproject ircparse "0.3.0-SNAPSHOT"
+(defproject ircparse "0.3.0"
   :description "A parser for IRC messages."
   :url "https://github.com/talklibre/ircparse"
   :license {:name "CC0 1.0 Universal"
