@@ -43,7 +43,3 @@
              "Nickname is already in use"))
       (is (= (:parse-tree parsed)
              [:message [:prefix [:servername [:hostname "cameron.freenode.net"]]] [:command "433"] [:params [:middle "*"] [:middle "rtm"] [:trailing "Nickname is already in use"]]])))))
-
-
-
-
