@@ -5,7 +5,7 @@ An IRC message parser written in Clojure.
 Add the following line to your [Leiningen](https://github.com/technomancy/leiningen) project dependencies:
 
 ````clojure
-[ircparse "0.3.0"]
+[ircparse "0.4.0"]
 ````
 
 Require ircparse in your namespace header:
